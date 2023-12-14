@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Passenger extends StatefulWidget {
+class Passenger extends StatelessWidget {
   const Passenger({super.key});
 
-  @override
-  State<Passenger> createState() => _PassengerState();
-}
-
-class _PassengerState extends State<Passenger> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
