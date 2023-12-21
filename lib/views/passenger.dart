@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_airplane_passenger_convenience/views/homescreen.dart';
 
 class Passenger extends StatelessWidget {
   const Passenger({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -26,6 +29,7 @@ class Passenger extends StatelessWidget {
               Column(
                 children: <Widget>[
                   TextField(
+                    controller: usernameController,
                     decoration: InputDecoration(
                       labelText: "Email ID",
                       labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400),
@@ -45,6 +49,7 @@ class Passenger extends StatelessWidget {
                   ),
                   const SizedBox(height: 16,),
                   TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                       labelText: "Password",
                       labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400),
@@ -61,6 +66,7 @@ class Passenger extends StatelessWidget {
                           )
                       ),
                     ),
+                    obscureText: true,
                   ),
                   const SizedBox(height: 12,),
                   const Align(
@@ -72,7 +78,11 @@ class Passenger extends StatelessWidget {
                     height: 50,
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: (){},
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (_) => HomeScreen(true, usernameController.text),
+                        ));
+                      },
                       child: Ink(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
