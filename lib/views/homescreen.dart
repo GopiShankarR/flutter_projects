@@ -17,16 +17,42 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("Welcome ${widget.username}"),
         centerTitle: true,
       ),
-      body: GestureDetector(
-        onTap: () {
+      body: ListView(
+        children: <Widget>[
+          InkWell(
+            onTap: () {
 
-        },
-        child: const Card(
-          child: ListTile(
-            title: Text('Flight #abc'),
-            subtitle: Text('Click to view more'),
-          )
-        )
+            },
+            child: const Card(
+              color: Colors.blue,
+              elevation: 4,
+              child: SizedBox(
+                height: 300,
+                child: ListTile(
+                  title: Text('Flight #abc'),
+                  subtitle: Text('Click to view more'),
+                )
+              ),
+            )
+          ),
+          InkWell(
+            onTap: () {
+
+            },
+            child: const Card(
+              color: Colors.blue,
+              elevation: 4,
+              child: SizedBox(
+                height: 300,
+                child: ListTile(
+                  title: Text('Flight #def'),
+                  subtitle: Text('Click to view more'),
+                  
+                )
+              ),
+            )
+          ),
+        ]
       ),
     );
   }
