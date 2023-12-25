@@ -43,7 +43,6 @@ class DBHelper {
                 email TEXT,
                 username TEXT,
                 password_hash TEXT,
-                salt TEXT,
                 airline TEXT,
                 isLoggedIn INTEGER
               )
@@ -71,7 +70,6 @@ class DBHelper {
               email TEXT,
               username TEXT,
               password_hash TEXT,
-              salt TEXT,
               airline TEXT,
               isLoggedIn INTEGER
             )

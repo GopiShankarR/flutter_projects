@@ -1,7 +1,7 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import '../utils/db_helper.dart';
 import 'dart:convert';
-import 'dart:math';
-import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 
 class UserDataModel {
@@ -23,38 +23,13 @@ class UserDataModel {
     this.salt,
   });
 
-  Uint8List generateSalt() {
-    final random = Random.secure();
-    final salt = List<int>.generate(32, (_) => random.nextInt(256));
-    return Uint8List.fromList(salt);
-  }
-
   String hashPassword(String password) {
-    final saltBytes = generateSalt();
-    salt = base64.encode(saltBytes);
-
-    final codec = Utf8Codec();
+    const codec = Utf8Codec();
     final passwordBytes = codec.encode(password);
 
-    final combinedBytes = Uint8List.fromList([...passwordBytes, ...saltBytes]);
+    final hashedBytes = sha256.convert(passwordBytes).bytes;
 
-    final hashedBytes = sha256.convert(combinedBytes).bytes;
-
-    passwordHash = base64.encode(hashedBytes);
-    return passwordHash as String;
-  }
-
-  bool verifyEnteredPassword(String enteredPassword) {
-    final codec = Utf8Codec();
-    final passwordBytes = codec.encode(enteredPassword); 
-
-    final combinedBytes = Uint8List.fromList([...passwordBytes, ...base64.decode(salt! as String)]);
-
-    final hashedBytes = sha256.convert(combinedBytes).bytes;
-
-    final newHash = base64.encode(hashedBytes);
-
-    return newHash == passwordHash;
+    return base64.encode(hashedBytes);
   }
 
   Future<bool?> getLoggedInStatus(String loggedInUsername) async {
@@ -69,19 +44,17 @@ class UserDataModel {
     return isLoggedIn;
   }
 
-  Future<bool> checkUserLoggedIn(String username, String password) async {
+  Future<bool> checkUserLoggedIn(String username, String enteredPassword) async {
     final List<Map<String, dynamic>> result = await DBHelper().query(
       'user_data', 
       where: 'username = "$username"'
     );
 
     if (result.isNotEmpty) {
-      final userData = UserDataModel(
-      username: result[0]['username'],
-      passwordHash: result[0]['password'],
-      salt: result[0]['salt'],
-    );
-      return userData.verifyEnteredPassword(password);
+      final storedEncryptedPassword = result[0]['password_hash'];
+      final enteredHashedPassword = hashPassword(enteredPassword);
+
+      return enteredHashedPassword == storedEncryptedPassword;
     } else {
       return false;
     }
