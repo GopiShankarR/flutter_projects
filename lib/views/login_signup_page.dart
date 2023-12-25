@@ -43,10 +43,31 @@ class _LoginSignUpState extends State<LoginSignUp> {
               ),
               Column(
                 children: <Widget>[
+                  if(isRegistering)
+                    TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                              color: Colors.red,
+                            )
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16,),
                   TextField(
                     controller: usernameController,
                     decoration: InputDecoration(
-                      labelText: "Email",
+                      labelText: "Username",
                       labelStyle: TextStyle(fontSize: 14,color: Colors.grey.shade400),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -269,8 +290,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
     bool isValid = true;
     if(airlineName == null || airlineName == '') {
       isValid = false;
-    }
-    showDialog(
+      showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -286,6 +306,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
           );
         },
       );
+    }
     return isValid;
   }
 
@@ -296,7 +317,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
     final user = UserDataModel();
     final enteredPassword = password;
 
-    user.hashPassword(enteredPassword);
+    final String hashedPassword = user.hashPassword(enteredPassword);
 
     bool emailValidation = _validateEmail(email);
     bool dropdownValidation = validateAirlines(selectedAirline);
@@ -308,6 +329,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
     final newUser = UserDataModel(
       username: username,
       airline: selectedAirline,
+      passwordHash: hashedPassword,
       email: email,
       isLoggedIn: true
     );

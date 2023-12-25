@@ -29,7 +29,7 @@ class UserDataModel {
     return Uint8List.fromList(salt);
   }
 
-  void hashPassword(String password) {
+  String hashPassword(String password) {
     final saltBytes = generateSalt();
     salt = base64.encode(saltBytes);
 
@@ -41,21 +41,19 @@ class UserDataModel {
     final hashedBytes = sha256.convert(combinedBytes).bytes;
 
     passwordHash = base64.encode(hashedBytes);
+    return passwordHash as String;
   }
 
   bool verifyEnteredPassword(String enteredPassword) {
     final codec = Utf8Codec();
     final passwordBytes = codec.encode(enteredPassword); 
 
-    final combinedBytes = Uint8List.fromList([...passwordBytes, ...base64.decode(salt as String)]);
+    final combinedBytes = Uint8List.fromList([...passwordBytes, ...base64.decode(salt! as String)]);
 
-    // Hash the combined bytes using the same hashing algorithm and iterations
     final hashedBytes = sha256.convert(combinedBytes).bytes;
 
-    // Encode the newly generated hash to compare with the stored hash
     final newHash = base64.encode(hashedBytes);
-    
-    // Compare the new hash with the stored hash
+
     return newHash == passwordHash;
   }
 
@@ -96,7 +94,7 @@ class UserDataModel {
       'username': username,
       'password_hash': passwordHash,
       'airline': airline,
-      'loggedIn': isLoggedInValue,
+      'isLoggedIn': isLoggedInValue,
     });
   }
 
