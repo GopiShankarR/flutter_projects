@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_airplane_passenger_convenience/views/login_signup_page.dart';
 
 class HomeScreen extends StatefulWidget {
   final bool isLoggedIn;
@@ -10,12 +11,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome ${widget.username}"),
+        title: const Text("Your Flights"),
         centerTitle: true,
+      ),
+       drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text("Welcome ${widget.username}"),
+              accountEmail: const Text(""),
+              decoration: BoxDecoration(color: Colors.blue),
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"),
+              selected: selectedIndex == 1,
+              onTap: () {
+                // SessionManager.clearSession();
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (_) => const LoginSignUp(),
+                ));
+              },
+            ),
+          ],
+        ),
       ),
       body: ListView(
         children: <Widget>[
