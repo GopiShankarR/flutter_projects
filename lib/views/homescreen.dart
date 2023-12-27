@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_airplane_passenger_convenience/views/login_signup_page.dart';
+import 'package:flutter_airplane_passenger_convenience/views/seat_map.dart';
 
 class HomeScreen extends StatefulWidget {
   final bool isLoggedIn;
@@ -30,9 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(color: Colors.blue),
             ),
             ListTile(
+              leading: const Icon(Icons.flight),
+              title: const Text("Your past flights"),
+              selected: selectedIndex == 1,
+              onTap: () {
+                // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                //   builder: (_) => const LoginSignUp(),
+                // ));
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.logout),
               title: const Text("Logout"),
-              selected: selectedIndex == 1,
+              selected: selectedIndex == 2,
               onTap: () {
                 // SessionManager.clearSession();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -47,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           InkWell(
             onTap: () {
-
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (_) => SeatMap("abc"),
+              ));
             },
             child: const Card(
               color: Colors.blue,
@@ -63,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           InkWell(
             onTap: () {
-
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (_) => SeatMap("def"),
+              ));
             },
             child: const Card(
               color: Colors.blue,
