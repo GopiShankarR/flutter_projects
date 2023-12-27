@@ -28,7 +28,6 @@ class DBHelper {
       sqfliteFfiInit();
       final databaseFactory = databaseFactoryFfi;
       final appDocumentsDir = await getApplicationDocumentsDirectory();
-      print(appDocumentsDir.path);
       final dbPath = path.join(appDocumentsDir.path, "databases", "airplanes.db");
           // await deleteDatabase(dbPath);
 
