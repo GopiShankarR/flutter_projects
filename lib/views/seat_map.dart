@@ -44,7 +44,6 @@ class _SeatMapState extends State<SeatMap> {
       } else if (seats[index].status == SeatStatus.selected) {
         seats[index].status = SeatStatus.available;
       }
-      // Handle other cases if needed
     });
   }
 
@@ -88,45 +87,69 @@ class _SeatMapState extends State<SeatMap> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Seating Map for Flight ${widget.flightNumber}'),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: Center(
         child: CustomPaint(
-          painter: PlanePainter(), // CustomPainter for plane structure
+          painter: PlanePainter(),
           child: Container(
-            // Container for seating arrangement
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
             child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7, // Adjust as needed
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 9,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
               ),
-              itemCount: 56, // Number of seats, adjust as needed
+              itemCount: 560,
               itemBuilder: (BuildContext context, int index) {
-                int rowNumber = (index ~/ 7) + 1;
-                String rowIdentifier = String.fromCharCode(64 + rowNumber);
-                if ((index + 1) % 7 == 4) {
-                  return Container();
+                if (index % 9 == 0) {
+                  return Center(
+                    child: Text(
+                      '${index ~/ 9 + 1}',
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  );
                 } else {
-                  int adjustedIndex = index - (index ~/ 4);
-                  return GestureDetector(
-                    onTap: () {
-                      // Handle seat selection or other actions
-                    },
-                    child: Container(
-                      // Customize container based on seat status
-                      decoration: BoxDecoration(
-                        color: Colors.green, // Example color for available seat
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                      child: Center(
+                  if (index ~/ 9 == 35 && index % 9 == 8) {
+                    return Container(
+                      color: Colors.red,
+                      child: const Center(
                         child: Text(
-                          '$rowIdentifier$adjustedIndex',
+                          'Emergency Exit',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  } else if (index % 9 == 8) {
+                    return Container();
+                  } else {
+                      List<String> seatLabels = ['A', 'B', 'C', '', 'E', 'F', 'G', ''];
+                      int adjustedIndex = (index - 1) % 9;
+                      
+                      if (adjustedIndex == 3) {
+                        return Container();
+                      } else {
+                        String seatLabel = seatLabels[adjustedIndex];
+                        return GestureDetector(
+                          onTap: () {
+                            
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '$seatLabel',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                  }
                 }
               },
             ),

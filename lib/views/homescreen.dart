@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           InkWell(
             onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
+              Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => SeatMap("abc"),
               ));
             },
@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
+              Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => SeatMap("def"),
               ));
             },
